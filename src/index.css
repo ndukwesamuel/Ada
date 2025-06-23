@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* [&:not(:first-child)]:mt-6 */
+
+
+/* # VITE_REACT_APP_API_URL=http://localhost:5050
+VITE_REACT_APP_API_URL=http://localhost:5050/api/
+VITE_REACT_APP_PAYSTACK_PUBLIC_KEY=pk_live_6a6fa48a77b77db899263f9dd1f4b6fd9334ecf6 */

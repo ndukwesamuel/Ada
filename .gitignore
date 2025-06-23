@@ -1,0 +1,31 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.env
+
+ VITE_REACT_APP_API_URL=http://localhost:5050
+VITE_REACT_APP_API_URL=https://pausepointbackend.onrender.com
+VITE_REACT_APP_PAYSTACK_PUBLIC_KEY=pk_live_6a6fa48a77b77db899263f9dd1f4b6fd9334ecf6
+
+bin
