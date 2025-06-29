@@ -9,7 +9,7 @@ const AdminPrivateRoute = () => {
     fff: role,
   });
 
-  return user ? <Outlet /> : <Navigate to="/super-admin-login" replace />;
+  return user ? <Outlet /> : <Navigate to="/" replace />;
 };
 
 export default AdminPrivateRoute;

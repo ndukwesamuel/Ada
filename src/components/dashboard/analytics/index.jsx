@@ -4,7 +4,7 @@ import building from "../../../assets/dashboardIcon/Group 1000004455.svg";
 import people from "../../../assets/dashboardIcon/Mask group.svg";
 import Chart from "./chart";
 
-const EstateDashboard = () => {
+const HomeEstateDashboard = () => {
   return (
     <div className="">
       {/* Top Section: Estate, Users, Admins */}
@@ -62,7 +62,10 @@ const EstateDashboard = () => {
           <div className="p-6 bg-white shadow-lg rounded-md">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold">Emergencies</h3>
-              <Link to="/dashboard/emergencies" className="underline text-success">
+              <Link
+                to="/dashboard/emergencies"
+                className="underline text-success"
+              >
                 See all
               </Link>
             </div>
@@ -92,7 +95,10 @@ const EstateDashboard = () => {
             <div className="p-6 bg-white  shadow-lg rounded-md">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-xl font-bold">Recently added user</h3>
-                <Link to="/dashboard/estates" className="underline text-success">
+                <Link
+                  to="/dashboard/estates"
+                  className="underline text-success"
+                >
                   See all
                 </Link>
               </div>
