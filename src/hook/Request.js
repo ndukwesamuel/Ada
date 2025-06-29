@@ -2,14 +2,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-// const apiUrl = "http://localhost:5050/api";
+// const apiUrl = "http://localhost:8080";
 
 // const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 // const apiUrl = `${API_BASE_URL}api`;
 
-const apiUrl = "https://uneven-tarrah-pausepoint-950a7a7b.koyeb.app/api";
-
+const apiUrl = "https://remicommerc.onrender.com";
 const fetchData = async (url, token) => {
   try {
     console.log({

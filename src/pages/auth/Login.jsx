@@ -34,19 +34,20 @@ export default function Login() {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log({
+      email,
+      password,
+    });
+
     try {
       // Call the login mutation
       const data = await loginMutation.mutateAsync({
-        url: "/v1/auth/esatet-admin-login",
+        url: "/api/v1/auth/signin",
         data: {
           email: email.toLowerCase(),
           password,
-          role: selectedRole,
         },
-      });
-
-      console.log({
-        jfjf: data,
       });
 
       // Handle successful login
@@ -60,16 +61,11 @@ export default function Login() {
 
         toast.success("Login successful");
 
-        // Navigate based on role
-        if (selectedRole === "estateAdmin") {
-          navigate("/estate-admin");
-        }
+        console.log({
+          fffcc: data,
+        });
 
-        // else if (selectedRole === "vendor") {
-        //   navigate("/dashboard/vendor");
-        // } else if (selectedRole === "service") {
-        //   navigate("/dashboard/service");
-        // }
+        navigate("/dashboard/home");
       }
     } catch (err) {
       // Handle errors from the mutation
@@ -80,121 +76,70 @@ export default function Login() {
 
   return (
     <div>
-      <div className="container">
-        <Link
-          to="/"
-          className="w-[150px] h-[150px] block rounded-lg mx-auto -mb-8"
-        >
-          <img className="w-full h-full" src={logo} alt="" />
-        </Link>
-      </div>
+      <div className="container"></div>
       <div className="container my-2">
         <div className="row">
           <div className="col-md-6 offset-md-3">
-            {/* Role Selection Cards */}
-            {!selectedRole && (
-              <div className="text-center">
-                <p className="text-success text-3xl mt-4 pb-3">
-                  Select Your Role
-                </p>
-                <div className="d-flex justify-content-center gap-4">
-                  {/* <div
-                    className="card cursor-pointer"
-                    style={{ width: "18rem" }}
-                    onClick={() => handleRoleSelection("vendor")}
-                  >
-                    <div className="card-body">
-                      <h5 className="card-title">Vendor</h5>
-                      <p className="card-text">Login as a vendor.</p>
-                    </div>
-                  </div>
-                  <div
-                    className="card cursor-pointer"
-                    style={{ width: "18rem" }}
-                    onClick={() => handleRoleSelection("service")}
-                  >
-                    <div className="card-body">
-                      <h5 className="card-title">Service</h5>
-                      <p className="card-text">Login as a service provider.</p>
-                    </div>
-                  </div> */}
-                  <div
-                    className="card cursor-pointer"
-                    style={{ width: "18rem" }}
-                    onClick={() => handleRoleSelection("estateAdmin")}
-                  >
-                    <div className="card-body">
-                      <h5 className="card-title">Estate Admin</h5>
-                      <p className="card-text">Login as an estate admin.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+            <>
+              <p className="text-center text-success text-3xl mt-4 pb-3">
+                Login as {selectedRole}
+              </p>
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="email"
+                  className="form-control mb-4 p-3"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
 
-            {/* Login Form */}
-            {selectedRole && (
-              <>
-                <p className="text-center text-success text-3xl mt-4 pb-3">
-                  Login as {selectedRole}
-                </p>
-                <form onSubmit={handleSubmit}>
+                <div className="password-input-wrapper">
                   <input
-                    type="email"
+                    type={showPassword ? "text" : "password"}
                     className="form-control mb-4 p-3"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     required
                   />
-
-                  <div className="password-input-wrapper">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      className="form-control mb-4 p-3"
-                      placeholder="Enter Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                    <span
-                      className="password-toggle-text show1"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <IoEyeOutline /> : <FaRegEyeSlash />}
-                    </span>
-                  </div>
-
-                  <div className="">
-                    <span>
-                      Forgot password? Click{" "}
-                      <Link
-                        className="text-success fw-bold underline"
-                        to="/forgot-password"
-                      >
-                        here
-                      </Link>
-                    </span>
-                  </div>
-
-                  <button
-                    className="btn btn-block w-100 bg-success text-light mt-4 p-3 fw-bold"
-                    type="submit"
-                    disabled={loginMutation.isLoading} // Disable button while loading
+                  <span
+                    className="password-toggle-text show1"
+                    onClick={() => setShowPassword(!showPassword)}
                   >
-                    {loginMutation.isLoading ? "Loading..." : "Submit"}
-                  </button>
+                    {showPassword ? <IoEyeOutline /> : <FaRegEyeSlash />}
+                  </span>
+                </div>
 
-                  {/* Display error message if mutation fails */}
-                  {loginMutation.error && (
-                    <div className="text-danger mt-3">
-                      {loginMutation.error.message ||
-                        "Login failed. Please try again."}
-                    </div>
-                  )}
-                </form>
-              </>
-            )}
+                <div className="">
+                  <span>
+                    Forgot password? Click{" "}
+                    <Link
+                      className="text-success fw-bold underline"
+                      to="/forgot-password"
+                    >
+                      here
+                    </Link>
+                  </span>
+                </div>
+
+                <button
+                  className="btn btn-block w-100 bg-success text-light mt-4 p-3 fw-bold"
+                  type="submit"
+                  disabled={loginMutation.isLoading} // Disable button while loading
+                >
+                  {loginMutation.isLoading ? "Loading..." : "Submit"}
+                </button>
+
+                {/* Display error message if mutation fails */}
+                {loginMutation.error && (
+                  <div className="text-danger mt-3">
+                    {loginMutation.error.message ||
+                      "Login failed. Please try again."}
+                  </div>
+                )}
+              </form>
+            </>
           </div>
         </div>
       </div>

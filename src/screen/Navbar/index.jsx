@@ -16,7 +16,7 @@ export default function Navbar() {
 
           <div className="hidden md:flex space-x-4">
             <NavLink to="/">Home</NavLink>
-            <NavLink to="/about">About</NavLink>
+            <NavLink to="/main">Main</NavLink>
             <NavLink to="/contact">Contact</NavLink>
           </div>
 

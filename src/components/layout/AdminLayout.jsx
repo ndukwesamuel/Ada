@@ -14,40 +14,40 @@ import { BsShop } from "react-icons/bs";
 import { MessageSquare } from "lucide-react";
 import { FaRunning } from "react-icons/fa";
 const adminNavData = [
-  { path: "/dashboard/admin", label: "Dashboard", icon: IoStatsChart },
-  { path: "/dashboard/estates", label: "Estates", icon: FaBuildingColumns },
+  { path: "/dashboard/home", label: "Dashboard", icon: IoStatsChart },
+  { path: "/dashboard/main", label: "Main", icon: FaBuildingColumns },
   { path: "/dashboard/errands", label: "Errands", icon: FaRunning },
-  {
-    path: "/dashboard/emergencies",
-    label: "Emergencies",
-    icon: IoMdAlert,
-  },
-  {
-    path: "/dashboard/messages",
-    label: "Messages",
-    icon: IoMailUnreadSharp,
-  },
-  {
-    path: "/dashboard/notifications",
-    label: "Notifications",
-    icon: IoNotificationsSharp,
-  },
-  {
-    path: "/dashboard/market-place",
-    label: "Market Place",
-    icon: BsShop,
-  },
+  // {
+  //   path: "/dashboard/emergencies",
+  //   label: "Emergencies",
+  //   icon: IoMdAlert,
+  // },
+  // {
+  //   path: "/dashboard/messages",
+  //   label: "Messages",
+  //   icon: IoMailUnreadSharp,
+  // },
+  // {
+  //   path: "/dashboard/notifications",
+  //   label: "Notifications",
+  //   icon: IoNotificationsSharp,
+  // },
+  // {
+  //   path: "/dashboard/market-place",
+  //   label: "Market Place",
+  //   icon: BsShop,
+  // },
 
-  {
-    path: "/dashboard/annoucement",
-    label: "Annoucement",
-    icon: MessageSquare,
-  },
-  {
-    path: "/dashboard/forum",
-    label: "Forum",
-    icon: MessageSquare,
-  },
+  // {
+  //   path: "/dashboard/annoucement",
+  //   label: "Annoucement",
+  //   icon: MessageSquare,
+  // },
+  // {
+  //   path: "/dashboard/forum",
+  //   label: "Forum",
+  //   icon: MessageSquare,
+  // },
 ];
 
 const AdminLayout = () => {
