@@ -17,8 +17,6 @@ import Main from "./screen/Main";
 import Login from "./pages/auth/Login";
 import AdminPrivateRoute from "./components/utils/AdminPrivateRoute";
 import AdminLayout from "./components/layout/AdminLayout";
-import EstateDashboard from "./components/dashboard/analytics/index";
-import IncomeList from "./screen/IncomeList";
 const apiUrl = import.meta.env.VITE_API_URL;
 const publicKey = import.meta.env.VITE_PUBLIC_KEY;
 
