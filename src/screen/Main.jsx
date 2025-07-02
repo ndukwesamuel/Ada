@@ -26,15 +26,11 @@ function Main() {
   );
 
   const totalIncome =
-    isIncomeData?.incomes?.reduce((sum, item) => sum + item.amount, 0) || 0;
-  const totalExpenses = isExp?.reduce((sum, item) => sum + item.amount, 0) || 0;
+    isIncomeData?.incomes?.reduce((sum, item) => sum + item?.amount, 0) || 0;
+  const totalExpenses =
+    isExp?.reduce((sum, item) => sum + item?.amount, 0) || 0;
 
   const balance = totalIncome - totalExpenses;
-
-  // console.log({
-  //   gghh: totalIncome,
-  //   kak: totalExpenses,
-  // });
 
   // Load data from localStorage on initial render
   useEffect(() => {
