@@ -1,15 +1,46 @@
+import { useMutateData } from "@/hook/Request";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 function IncomeForm({ addIncome }) {
   const [source, setSource] = useState("");
   const [amount, setAmount] = useState("");
+  const { user } = useSelector((state) => state?.reducer?.AuthSlice);
+
+  console.log({
+    gggh: user?.data?.token,
+  });
+
+  const { mutate: createIncome, isPending: isPendingcreateIncome } =
+    useMutateData("incomedata", "POST");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!source || !amount) return;
-    addIncome(source, amount);
-    setSource("");
-    setAmount("");
+    // addIncome(source, amount);
+
+    createIncome(
+      {
+        url: `/api/v1/main/income`,
+        data: {
+          source: source,
+          amount: parseFloat(amount),
+        },
+      },
+      {
+        onSuccess: () => {
+          alert("Income created successfully!");
+          setSource("");
+          setAmount("");
+        },
+        onError: (err) => {
+          console.log({
+            xc: err,
+          });
+          alert(`${err}`);
+        },
+      }
+    );
   };
 
   return (
@@ -42,12 +73,19 @@ function IncomeForm({ addIncome }) {
           required
         />
       </div>
-      <button
-        type="submit"
-        className="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md transition duration-200"
-      >
-        Add Income
-      </button>
+
+      {isPendingcreateIncome ? (
+        <div className="mb-4">
+          <p>Loading .........</p>
+        </div>
+      ) : (
+        <button
+          type="submit"
+          className="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md transition duration-200"
+        >
+          Add Income
+        </button>
+      )}
     </form>
   );
 }

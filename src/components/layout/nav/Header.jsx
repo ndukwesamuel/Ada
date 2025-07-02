@@ -24,13 +24,15 @@ const Header = ({ toggleSidebar }) => {
     <div className="w-full px-4 py-6 border-b flex justify-between">
       {/* Hamburger menu icon for mobile */}
       <div className="w-full flex lg:hidden gap-4 items-center justify-between">
-        <h1 className="md:hidden font-bold text-2xl text-green-500">Pause Point</h1>
+        <h1 className="md:hidden font-bold text-2xl text-green-500">
+          Pause Point
+        </h1>
         <CgMenuGridO
           className="text-tremor-content-emphasis text-3xl text-green-500 cursor-pointer"
           onClick={toggleSidebar}
         />
       </div>
-      <SearchInput />
+      {/* <SearchInput /> */}
       <UserAvatar />
     </div>
   );

@@ -69,7 +69,7 @@ const mutateData = async ({ url, token, data, method = "POST" }) => {
 
 export const useFetchData = (url, queryKey, options = {}) => {
   const { user } = useSelector((state) => state?.reducer?.AuthSlice);
-  const token = user?.token;
+  const token = user?.data?.token;
   return useQuery({
     queryKey: [queryKey, token],
     queryFn: () => fetchData(url, token),
@@ -82,7 +82,7 @@ export const useFetchData = (url, queryKey, options = {}) => {
 // Reusable hook for mutations (POST, PUT, DELETE)
 export const useMutateData = (queryKey, method = "POST") => {
   const { user } = useSelector((state) => state?.reducer?.AuthSlice);
-  const token = user?.token;
+  const token = user?.data?.token;
   const queryClient = useQueryClient();
 
   const mutation = useMutation({

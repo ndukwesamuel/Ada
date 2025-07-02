@@ -16,7 +16,7 @@ import { FaRunning } from "react-icons/fa";
 const adminNavData = [
   { path: "/dashboard/home", label: "Dashboard", icon: IoStatsChart },
   { path: "/dashboard/main", label: "Main", icon: FaBuildingColumns },
-  { path: "/dashboard/errands", label: "Errands", icon: FaRunning },
+  // { path: "/dashboard/errands", label: "Errands", icon: FaRunning },
   // {
   //   path: "/dashboard/emergencies",
   //   label: "Emergencies",

@@ -2,11 +2,11 @@ function IncomeList({ incomes, deleteIncome }) {
   return (
     <div>
       <h3 className="text-lg font-medium mb-2">Income History</h3>
-      {incomes.length === 0 ? (
+      {incomes?.length === 0 ? (
         <p className="text-gray-500">No income recorded yet</p>
       ) : (
         <ul className="divide-y divide-gray-200">
-          {incomes.map((income) => (
+          {incomes?.map((income) => (
             <li key={income.id} className="py-3 flex justify-between">
               <div>
                 <span className="font-medium">{income.source}</span>

@@ -45,7 +45,7 @@ function MainNav({ data = [] }) {
       </NavList>
 
       <BottomNavList>
-        <li>
+        {/* <li>
           <StyledNavLink
             to="/dashboard/settings"
             aria-label="Settings"
@@ -54,7 +54,7 @@ function MainNav({ data = [] }) {
             <HiOutlineCog />
             <span>Settings</span>
           </StyledNavLink>
-        </li>
+        </li> */}
         <li>
           {/* Logout Button */}
           <LogoutButton

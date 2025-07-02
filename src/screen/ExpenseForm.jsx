@@ -1,15 +1,46 @@
+import { useMutateData } from "@/hook/Request";
 import { useState } from "react";
 
 function ExpenseForm({ addExpense }) {
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
 
+  const { mutate: createExp, isPending: isPendingcreateExp } = useMutateData(
+    "expdata",
+    "POST"
+  );
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!category || !amount) return;
-    addExpense(category, amount);
-    setCategory("");
-    setAmount("");
+
+    createExp(
+      {
+        url: `/api/v1/main/exp`,
+        data: {
+          category: category,
+          amount: parseFloat(amount),
+        },
+      },
+      {
+        onSuccess: () => {
+          alert("Expense created successfully!");
+          // setSource("");
+          // setAmount("");
+          setCategory("");
+          setAmount("");
+        },
+        onError: (err) => {
+          console.log({
+            xc: err,
+          });
+          alert(`${err}`);
+        },
+      }
+    );
+    // addExpense(category, amount);
+    // setCategory("");
+    // setAmount("");
   };
 
   return (
@@ -42,12 +73,19 @@ function ExpenseForm({ addExpense }) {
           required
         />
       </div>
-      <button
-        type="submit"
-        className="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md transition duration-200"
-      >
-        Add Expense
-      </button>
+
+      {isPendingcreateExp ? (
+        <div className="mb-4">
+          <p>Loading .........</p>
+        </div>
+      ) : (
+        <button
+          type="submit"
+          className="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md transition duration-200"
+        >
+          Add Expense
+        </button>
+      )}
     </form>
   );
 }
