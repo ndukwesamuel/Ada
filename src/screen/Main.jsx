@@ -1,87 +1,104 @@
 import { useState, useEffect } from "react";
-// import IncomeForm from "./components/IncomeForm";
-// import ExpenseForm from "./components/ExpenseForm";
-// import IncomeList from "./components/IncomeList";
-// import ExpenseList from "./components/ExpenseList";
-// import Summary from "./components/Summary";
 import IncomeForm from "./IncomeForm";
 import ExpenseForm from "./ExpenseForm";
 import IncomeList from "./IncomeList";
 import ExpenseList from "./ExpenseList";
 import Summary from "./Summary";
-import { useFetchData } from "@/hook/Request";
+import { useFetchData } from "@/hook/Request"; // Ensure this path is correct
 
 function Main() {
+  // Local state for incomes and expenses (kept for now, but API data is prioritized)
   const [incomes, setIncomes] = useState([]);
   const [expenses, setExpenses] = useState([]);
 
-  const { data: isIncomeData, refetch: refetchisIncomeData } = useFetchData(
+  // Fetching data from API
+  const { data: incomeApiData, refetch: refetchIncomeData } = useFetchData(
     `/api/v1/main/income`,
-    "incomedata"
+    "incomes" // Changed query key for clarity
   );
 
-  const { data: isExp, refetch: refetchisExp } = useFetchData(
+  const { data: expenseApiData, refetch: refetchExpenseData } = useFetchData(
     `/api/v1/main/exp`,
-    "expdata"
+    "expenses" // Changed query key for clarity
   );
 
+  // Calculate totals from API data
   const totalIncome =
-    isIncomeData?.incomes?.reduce((sum, item) => sum + item?.amount, 0) || 0;
+    incomeApiData?.incomes?.reduce((sum, item) => sum + item?.amount, 0) || 0;
   const totalExpenses =
-    isExp?.reduce((sum, item) => sum + item?.amount, 0) || 0;
+    expenseApiData?.reduce((sum, item) => sum + item?.amount, 0) || 0;
 
   const balance = totalIncome - totalExpenses;
 
-  // Load data from localStorage on initial render
+  // --- Local Storage Management (Consider removing if API is the single source of truth) ---
+  // If you want to keep local storage for offline capabilities or initial load,
+  // ensure it doesn't conflict with API data. For this example,
+  // I'm assuming API data is paramount once fetched.
   useEffect(() => {
+    // These useEffects for localStorage are potentially redundant if API is primary source.
+    // They are kept here for now as per your original code, but you might want to remove them
+    // or adjust their logic to integrate better with the fetched data.
     const savedIncomes = JSON.parse(localStorage.getItem("incomes")) || [];
     const savedExpenses = JSON.parse(localStorage.getItem("expenses")) || [];
     setIncomes(savedIncomes);
     setExpenses(savedExpenses);
   }, []);
 
-  // Save data to localStorage whenever incomes or expenses change
   useEffect(() => {
     localStorage.setItem("incomes", JSON.stringify(incomes));
     localStorage.setItem("expenses", JSON.stringify(expenses));
   }, [incomes, expenses]);
+  // --- End Local Storage Management ---
 
+  // Functions for adding/deleting (these should ideally trigger API calls and then refetch)
+  // For now, I'm keeping the local state updates, but you'll likely want to
+  // integrate them with your `useMutateData` calls in IncomeForm/ExpenseForm
+  // and then call `refetchIncomeData()` or `refetchExpenseData()` on success.
   const addIncome = (source, amount) => {
+    // This local state update is being superseded by API calls.
+    // It's here mainly for conceptual completeness if you also want local fallback.
     const newIncome = {
       id: Date.now(),
       source,
       amount: parseFloat(amount),
       date: new Date().toLocaleDateString(),
     };
-    setIncomes([...incomes, newIncome]);
+    setIncomes([...incomes, newIncome]); // This will likely be removed
   };
 
   const addExpense = (category, amount) => {
+    // This local state update is being superseded by API calls.
     const newExpense = {
       id: Date.now(),
       category,
       amount: parseFloat(amount),
       date: new Date().toLocaleDateString(),
     };
-    setExpenses([...expenses, newExpense]);
+    setExpenses([...expenses, newExpense]); // This will likely be removed
   };
 
   const deleteIncome = (id) => {
-    setIncomes(incomes.filter((income) => income.id !== id));
+    // This should ideally trigger an API delete call and then refetch.
+    setIncomes(incomes.filter((income) => income.id !== id)); // This will likely be removed
+    // You'd use useMutateData for delete operations and then refetch.
+    console.log("Delete Income called for ID:", id); // Placeholder
   };
 
   const deleteExpense = (id) => {
-    setExpenses(expenses.filter((expense) => expense.id !== id));
+    // This should ideally trigger an API delete call and then refetch.
+    setExpenses(expenses.filter((expense) => expense.id !== id)); // This will likely be removed
+    // You'd use useMutateData for delete operations and then refetch.
+    console.log("Delete Expense called for ID:", id); // Placeholder
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-6xl">
-      <h1 className="text-3xl font-bold text-center mb-8 text-blue-600">
+    <div className="container mx-auto px-4 py-6 max-w-6xl">
+      <h1 className="text-3xl sm:text-4xl font-extrabold text-center mb-6 sm:mb-8 text-purple-600">
         Exp/Income Tracker
       </h1>
 
       {/* Summary Section */}
-      <div className="mt-8 bg-white p-6 rounded-lg shadow-md">
+      <div className="mb-8 bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-gray-100">
         <Summary
           incomes={totalIncome}
           expenses={totalExpenses}
@@ -89,22 +106,28 @@ function Main() {
         />
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
         {/* Income Section */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4 text-green-600">Income</h2>
-          <IncomeForm addIncome={addIncome} />
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-gray-100">
+          <h2 className="text-2xl font-bold mb-5 text-green-600">Income</h2>
+          <IncomeForm addIncome={addIncome} onIncomeAdded={refetchIncomeData} />
           <IncomeList
-            incomes={isIncomeData?.incomes}
-            deleteIncome={deleteIncome}
+            incomes={incomeApiData?.incomes}
+            deleteIncome={deleteIncome} // You'll want to update this to trigger an API delete
           />
         </div>
 
         {/* Expense Section */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4 text-red-600">Expenses</h2>
-          <ExpenseForm addExpense={addExpense} />
-          <ExpenseList expenses={isExp} deleteExpense={deleteExpense} />
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-gray-100">
+          <h2 className="text-2xl font-bold mb-5 text-red-600">Expenses</h2>
+          <ExpenseForm
+            addExpense={addExpense}
+            onExpenseAdded={refetchExpenseData}
+          />
+          <ExpenseList
+            expenses={expenseApiData}
+            deleteExpense={deleteExpense} // You'll want to update this to trigger an API delete
+          />
         </div>
       </div>
     </div>

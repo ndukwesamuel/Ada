@@ -11,12 +11,13 @@ import { Analytics } from "@vercel/analytics/react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import Navbar from "./screen/Navbar";
+// import Navbar from "./screen/Navbar";
 import Home from "./screen/Home/index";
 import Main from "./screen/Main";
 import Login from "./pages/auth/Login";
 import AdminPrivateRoute from "./components/utils/AdminPrivateRoute";
-import AdminLayout from "./components/layout/AdminLayout";
+import AdminLayout from "./screen/tracker/AdminLayout";
+// import AdminLayout from "./components/layout/AdminLayout";
 const apiUrl = import.meta.env.VITE_API_URL;
 const publicKey = import.meta.env.VITE_PUBLIC_KEY;
 
@@ -51,20 +52,6 @@ function App() {
             <Route element={<AdminLayout />}>
               <Route path="home" element={<Home />} />
               <Route path="main" element={<Main />} />
-
-              {/* <Route path="estates" element={<AdminDashboard />} />
-              <Route path="errands" element={<Errands />} />
-              <Route path="estates" element={<SuperAdminDashboard />} />
-              <Route path="emergencies" element={<EmergencyDashboard />} />
-              <Route path="messages" element={<MessagesDashboard />} />
-              <Route path="notifications" element={<NotificationDashboard />} />
-              <Route path="market-place" element={<SuperAdminMarketPlace />} />
-              <Route path="annoucement" element={<Annoucement />} />
-              <Route path="physical" element={<PhysicalDeviceClanScreen />} />
-
-              <Route path="clan/detail/:clanId" element={<ClanDetail />} />
-              <Route path="clan/create" element={<CreateEstate />} />
-              <Route path="settings" element={<ProfileSettings />} /> */}
             </Route>
           </Route>
 

@@ -1,44 +1,45 @@
+// Summary.jsx
+import React from "react";
+import PropTypes from "prop-types";
+
 function Summary({ incomes, expenses, balance }) {
-  // const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0);
-  // const totalExpenses = expenses.reduce(
-  //   (sum, expense) => sum + expense.amount,
-  //   0
-  // );
-  // const netBalance = totalIncome - totalExpenses;
+  const balanceColorClass = balance >= 0 ? "text-green-600" : "text-red-600";
 
   return (
-    <div>
-      <h2 className="text-xl font-semibold mb-4 text-blue-600">Summary</h2>
-      <div className="grid grid-cols-3 gap-4">
-        <div className="bg-green-50 p-4 rounded-lg">
-          <h3 className="text-sm font-medium text-green-800">Total Income</h3>
-          <p className="text-2xl font-bold text-green-600">
+    <div className="text-center">
+      <h2 className="text-xl sm:text-2xl font-bold mb-4 text-gray-800">
+        Your Financial Summary
+      </h2>
+      <div className="flex flex-col sm:flex-row justify-around items-center sm:space-x-8 space-y-4 sm:space-y-0">
+        <div className="flex flex-col items-center">
+          <p className="text-gray-600 text-sm sm:text-base">Total Income</p>
+          <span className="text-green-600 text-2xl sm:text-3xl font-bold">
             £{incomes.toFixed(2)}
-          </p>
+          </span>
         </div>
-        <div className="bg-red-50 p-4 rounded-lg">
-          <h3 className="text-sm font-medium text-red-800">Total Expenses</h3>
-          <p className="text-2xl font-bold text-red-600">
+        <div className="flex flex-col items-center">
+          <p className="text-gray-600 text-sm sm:text-base">Total Expenses</p>
+          <span className="text-red-600 text-2xl sm:text-3xl font-bold">
             £{expenses.toFixed(2)}
-          </p>
+          </span>
         </div>
-        <div
-          className={`p-4 rounded-lg ${
-            balance >= 0 ? "bg-blue-50" : "bg-yellow-50"
-          }`}
-        >
-          <h3 className="text-sm font-medium">Net Balance</h3>
-          <p
-            className={`text-2xl font-bold ${
-              balance >= 0 ? "text-blue-600" : "text-yellow-600"
-            }`}
+        <div className="flex flex-col items-center">
+          <p className="text-gray-600 text-sm sm:text-base">Balance</p>
+          <span
+            className={`text-2xl sm:text-3xl font-bold ${balanceColorClass}`}
           >
             £{balance.toFixed(2)}
-          </p>
+          </span>
         </div>
       </div>
     </div>
   );
 }
+
+Summary.propTypes = {
+  incomes: PropTypes.number.isRequired,
+  expenses: PropTypes.number.isRequired,
+  balance: PropTypes.number.isRequired,
+};
 
 export default Summary;
