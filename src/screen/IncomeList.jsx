@@ -27,7 +27,7 @@ function IncomeList({ incomes, deleteIncome }) {
                   £{income.amount?.toFixed(2)}
                 </span>
                 <button
-                  onClick={() => deleteIncome(income.id)}
+                  onClick={() => deleteIncome(income)}
                   className="ml-3 sm:ml-4 text-red-500 hover:text-red-700 p-1 rounded-full hover:bg-red-50 transition-colors duration-200"
                   aria-label="Delete income"
                 >

@@ -4,7 +4,7 @@ import ExpenseForm from "./ExpenseForm";
 import IncomeList from "./IncomeList";
 import ExpenseList from "./ExpenseList";
 import Summary from "./Summary";
-import { useFetchData } from "@/hook/Request"; // Ensure this path is correct
+import { useFetchData, useMutateData } from "@/hook/Request"; // Ensure this path is correct
 
 function Main() {
   // Local state for incomes and expenses (kept for now, but API data is prioritized)
@@ -21,6 +21,8 @@ function Main() {
     `/api/v1/main/exp`,
     "expenses" // Changed query key for clarity
   );
+
+  const { mutateAsync: RemoveExp } = useMutateData("expenses", "DELETE");
 
   // Calculate totals from API data
   const totalIncome =
@@ -77,18 +79,38 @@ function Main() {
     setExpenses([...expenses, newExpense]); // This will likely be removed
   };
 
-  const deleteIncome = (id) => {
-    // This should ideally trigger an API delete call and then refetch.
-    setIncomes(incomes.filter((income) => income.id !== id)); // This will likely be removed
-    // You'd use useMutateData for delete operations and then refetch.
-    console.log("Delete Income called for ID:", id); // Placeholder
+  const deleteIncome = async (item) => {
+    console.log({
+      gg: item?._id,
+    });
+
+    try {
+      await RemoveExp({
+        url: `/api/v1/main/income/${item?._id}`,
+      });
+      await Promise.all([refetchIncomeData()]);
+    } catch (error) {
+      console.error("Failed to remove member:", error);
+    } finally {
+      // setIsUpdating(false);
+    }
   };
 
-  const deleteExpense = (id) => {
-    // This should ideally trigger an API delete call and then refetch.
-    setExpenses(expenses.filter((expense) => expense.id !== id)); // This will likely be removed
-    // You'd use useMutateData for delete operations and then refetch.
-    console.log("Delete Expense called for ID:", id); // Placeholder
+  const deleteExpense = async (item) => {
+    console.log({
+      gg: item?._id,
+    });
+
+    try {
+      await RemoveExp({
+        url: `/api/v1/main/exp/${item?._id}`,
+      });
+      await Promise.all([refetchExpenseData()]);
+    } catch (error) {
+      console.error("Failed to remove member:", error);
+    } finally {
+      // setIsUpdating(false);
+    }
   };
 
   return (

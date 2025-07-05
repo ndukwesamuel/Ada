@@ -1,7 +1,36 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useMutateData } from "@/hook/Request";
 
 function ExpenseList({ expenses, deleteExpense }) {
+  // const handleRemoveMember = async (userId) => {
+  //   setIsUpdating(true);
+
+  //   let householdId = id;
+  //   try {
+  //     console.log({
+  //       xxx: {
+  //         userId,
+  //         id,
+  //       },
+  //     });
+
+  //     console.log({
+  //       nnn: `/v1/clan/remove-member/${householdId}/${userId}`,
+  //     });
+
+  //     await RemoveMemberMutation({
+  //       url: `/v1/clan/remove-member/${householdId}/${userId}`,
+  //     });
+  //     await Promise.all([refetchHousehold(), refetchNonHousehold()]);
+  //   } catch (error) {
+  //     console.error("Failed to remove member:", error);
+  //   } finally {
+  //     setIsUpdating(false);
+  //   }
+  // };
+
+  // localhost:8080/api/v1/main/exp/6864b900c3b4c6443d23158a
   return (
     <div>
       <h3 className="text-lg font-bold mb-3 text-gray-800">Expense History</h3>
@@ -29,7 +58,7 @@ function ExpenseList({ expenses, deleteExpense }) {
                   £{expense.amount?.toFixed(2)}
                 </span>
                 <button
-                  onClick={() => deleteExpense(expense.id)}
+                  onClick={() => deleteExpense(expense)}
                   className="ml-3 sm:ml-4 text-red-500 hover:text-red-700 p-1 rounded-full hover:bg-red-50 transition-colors duration-200"
                   aria-label="Delete expense"
                 >
