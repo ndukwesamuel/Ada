@@ -6,6 +6,8 @@ function IncomeForm({ onIncomeAdded }) {
   // Changed prop name for clarity
   const [source, setSource] = useState("");
   const [amount, setAmount] = useState("");
+  const [startDate, setstartDate] = useState("");
+
   // const { user } = useSelector((state) => state?.reducer?.AuthSlice); // Commented out as `user` isn't used directly here
 
   const { mutate: createIncome, isPending: isCreatingIncome } = useMutateData(
@@ -26,6 +28,7 @@ function IncomeForm({ onIncomeAdded }) {
         data: {
           source: source,
           amount: parseFloat(amount),
+          date: new Date(startDate).toISOString(),
         },
       },
       {
@@ -80,6 +83,26 @@ function IncomeForm({ onIncomeAdded }) {
           placeholder="0.00"
           min="0"
           step="0.01"
+          required
+        />
+      </div>
+
+      <div>
+        <label
+          htmlFor="startDate"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
+          Start Date
+        </label>
+        <input
+          type="date"
+          id="startDate"
+          name="startDate"
+          value={startDate}
+          onChange={(e) => setstartDate(e.target.value)}
+          // value={formData.startDate}
+          // onChange={handleChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white text-gray-900"
           required
         />
       </div>
