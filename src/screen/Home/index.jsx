@@ -1,4 +1,51 @@
+import { useFetchData, useMutateData } from "@/hook/Request";
+import CreateGoalModal from "./CreateGoalModal";
+import { useState } from "react";
+
 export default function Home() {
+  const { data: GoalApiData, refetch: refetchGoal } = useFetchData(
+    `/api/v1/main/goal`,
+    "goal" // Changed query key for clarity
+  );
+
+  console.log({
+    gvv: GoalApiData?.data,
+  });
+
+  const { mutate: deletegoals, isPending: isloadingdeletegoal } = useMutateData(
+    "goal",
+    "DELETE"
+  );
+
+  const handleDeleteGoal = async (goalId) => {
+    console.log({
+      fff: goalId,
+    });
+
+    deletegoals(
+      {
+        url: `/api/v1/main/goal/${goalId}`,
+        data: {},
+      },
+      {
+        onSuccess: () => {
+          alert("Deleted  successfully!");
+        },
+        onError: (err) => {
+          console.error("Error creating expense:", err);
+          alert(`Failed to add expense: ${err.message || "An error occurred"}`);
+        },
+      }
+    );
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [goals, setGoals] = useState([]);
+
+  // const handleGoalCreated = (newGoal) => {
+  //   setGoals((prev) => [...prev, newGoal]);
+  // };
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       {/* Hero Section */}
@@ -36,31 +83,80 @@ export default function Home() {
             <p className="opacity-90">
               You're making great progress toward your goals
             </p>
+
+            <div>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
+              >
+                Create New Goal
+              </button>
+
+              <CreateGoalModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                // onGoalCreated={handleGoalCreated}
+              />
+            </div>
           </div>
         </div>
       </div>
 
       {/* Savings Progress */}
-      <div className="bg-white p-6 rounded-2xl shadow-md mb-10">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-semibold text-gray-800">Vacation Fund</h3>
-          <span className="text-purple-600 font-medium">35% complete</span>
-        </div>
 
-        <div className="mb-4">
-          <div className="h-4 bg-gray-200 rounded-full w-full">
-            <div
-              className="h-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full"
-              style={{ width: "35%" }}
-            ></div>
+      {GoalApiData?.data?.map((page, index) => (
+        <div
+          className="bg-white p-6 rounded-2xl shadow-md mb-10 relative"
+          key={index}
+        >
+          {/* Delete Icon - Top Right Corner */}
+
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-semibold text-gray-800">
+              {page?.title}
+            </h3>
+
+            <span className="text-purple-600 font-medium">
+              {page?.progressPercentage}% complete
+            </span>
           </div>
-        </div>
 
-        <div className="flex justify-between text-sm text-gray-600">
-          <span>£1,250 saved</span>
-          <span>£3,500 goal</span>
+          <div className="mb-4">
+            <div className="h-4 bg-gray-200 rounded-full w-full">
+              <div
+                className="h-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full"
+                style={{ width: `${page?.progressPercentage}%` }}
+              ></div>
+            </div>
+          </div>
+
+          <div className="flex justify-between text-sm text-gray-600">
+            <span>£{page?.amountSaved} added</span>
+            <span>£{page?.targetAmount} goal</span>
+          </div>
+
+          <button
+            onClick={() => handleDeleteGoal(page._id)}
+            className="absolute top-4 right-1 text-gray-400 hover:text-red-500 transition-colors"
+            aria-label="Delete goal"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
+          </button>
         </div>
-      </div>
+      ))}
 
       {/* Key Features */}
       <div className="grid md:grid-cols-3 gap-6 mb-12">
